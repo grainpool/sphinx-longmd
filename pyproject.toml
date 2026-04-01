@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sphinx-longmd"
+version = "0.1.0"
+description = "Sphinx builder that emits one long-form Markdown artifact from the assembled resolved doctree."
+readme = "README.md"
+license = {text = "Apache-2.0"}
+requires-python = ">=3.11"
+keywords = ["sphinx", "markdown", "documentation", "myst", "export"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Framework :: Sphinx",
+    "Framework :: Sphinx :: Extension",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Documentation",
+    "Topic :: Documentation :: Sphinx",
+]
+dependencies = [
+    "sphinx>=9.0",
+]
+
+[project.optional-dependencies]
+myst = ["myst-parser>=4.0"]
+test = [
+    "pytest>=8.0",
+    "myst-parser>=4.0",
+]
+
+[project.entry-points."sphinx.builders"]
+longmd = "sphinx_longmd"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
