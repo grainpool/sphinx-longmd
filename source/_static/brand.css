@@ -1,0 +1,95 @@
+:root {
+  --grain-black: #111315;
+  --warm-ivory: #F4F0E8;
+  --harvest-gold: #C59A3D;
+  --field-green: #5F6F52;
+  --deep-teal: #1F5C63;
+  --deep-teal-hover: #17484D;
+  --slate: #374047;
+  --stone: #CFC7BA;
+}
+
+body {
+  background: var(--warm-ivory);
+  color: var(--grain-black);
+}
+
+div.document {
+  max-width: 1080px;
+}
+
+div.body {
+  color: var(--grain-black);
+  min-wdth: 50%;
+}
+
+div.sphinxsidebar {
+  background: #efe8dc;
+  border-right: 1px solid var(--stone);
+}
+
+div.sphinxsidebar h3,
+div.sphinxsidebar h4,
+div.sphinxsidebar h5,
+div.body h1,
+div.body h2,
+div.body h3,
+div.body h4 {
+  color: var(--grain-black);
+}
+
+a {
+  color: var(--deep-teal);
+}
+
+a:hover {
+  color: var(--deep-teal-hover);
+}
+
+div.related,
+div.footer {
+  background: var(--grain-black);
+  color: var(--warm-ivory);
+}
+
+div.related a,
+div.footer a {
+  color: var(--warm-ivory);
+}
+
+div.admonition,
+.highlight,
+pre,
+code,
+table.docutils,
+table.docutils td,
+table.docutils th {
+  border-color: var(--stone);
+}
+
+div.admonition {
+  background: #fbf8f1;
+}
+
+div.note,
+div.tip {
+  border-left: 4px solid var(--deep-teal);
+}
+
+div.warning,
+div.important {
+  border-left: 4px solid var(--harvest-gold);
+}
+
+table.docutils thead th {
+  background: #ebe3d6;
+}
+
+code,
+pre {
+  background: #f8f4ec;
+}
+
+.wy-nav-content-wrap {
+  background: var(--warm-ivory);
+}
