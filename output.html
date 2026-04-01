@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Output behavior &#8212; sphinx-longmd docs</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=e52cff1b" />
+    <link rel="stylesheet" type="text/css" href="_static/brand.css?v=eb0f4610" />
+    <script src="_static/documentation_options.js?v=01f34227"></script>
+    <script src="_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Configuration" href="configuration.html" />
+    <link rel="prev" title="Use the builder" href="usage.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">sphinx-longmd</a></h1>
+
+
+
+<p class="blurb">One long-form Markdown artifact from a resolved Sphinx project.</p>
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">User guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Use the builder</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Output behavior</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#primary-artifacts">Primary artifacts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#markdown-structure">Markdown structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#what-is-preserved-well">What is preserved well</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sidecar-shape">Sidecar shape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#anchor-strategy">Anchor strategy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#raw-content-policy">Raw content policy</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="limitations.html">Limitations and expectations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dialect.html">Dialect Specification</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Project</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="usage.html" title="previous chapter">Use the builder</a></li>
+      <li>Next: <a href="configuration.html" title="next chapter">Configuration</a></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+              <div class="related top">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="usage.html" title="Previous document">Use the builder</a>
+        </li>
+        <li>
+          <a href="configuration.html" title="Next document">Configuration</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+
+          <div class="body" role="main">
+            
+  <section id="output-behavior">
+<h1>Output behavior<a class="headerlink" href="#output-behavior" title="Link to this heading">¶</a></h1>
+<section id="primary-artifacts">
+<h2>Primary artifacts<a class="headerlink" href="#primary-artifacts" title="Link to this heading">¶</a></h2>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">&lt;root_doc&gt;.longmd.md</span></code></dt><dd><p>One Markdown file containing the entire project in reading order.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">&lt;root_doc&gt;.longmd.map.json</span></code></dt><dd><p>A machine-readable sidecar with provenance and build metadata.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">assets/</span></code></dt><dd><p>Copied image assets with collision-safe output names.</p>
+</dd>
+</dl>
+</section>
+<section id="markdown-structure">
+<h2>Markdown structure<a class="headerlink" href="#markdown-structure" title="Link to this heading">¶</a></h2>
+<p>The emitted Markdown currently uses these patterns:</p>
+<ul class="simple">
+<li><p>ATX headings</p></li>
+<li><p>HTML anchors such as <code class="docutils literal notranslate"><span class="pre">&lt;a</span> <span class="pre">id=&quot;...&quot;&gt;&lt;/a&gt;</span></code> for stable targets</p></li>
+<li><p>HTML comments to mark per-document boundaries</p></li>
+<li><p>standard Markdown for prose, lists, code blocks, links, and images</p></li>
+<li><p>MyST colon fences for semantics that do not map cleanly to plain Markdown</p></li>
+<li><p>fallback <code class="docutils literal notranslate"><span class="pre">sphinx-node</span></code> blocks for unknown custom nodes in non-strict mode</p></li>
+</ul>
+</section>
+<section id="what-is-preserved-well">
+<h2>What is preserved well<a class="headerlink" href="#what-is-preserved-well" title="Link to this heading">¶</a></h2>
+<p>Based on the current code and tests, the builder is designed to preserve or represent:</p>
+<ul class="simple">
+<li><p>toctree reading order</p></li>
+<li><p>section and target anchors</p></li>
+<li><p>glossary terms</p></li>
+<li><p>Python domain object descriptions</p></li>
+<li><p>admonitions and common block-level Sphinx constructs</p></li>
+<li><p>figures, tables, footnotes, citations, and field lists</p></li>
+<li><p>copied image assets</p></li>
+<li><p>warnings, losses, timing, and span metadata in the sidecar</p></li>
+</ul>
+</section>
+<section id="sidecar-shape">
+<h2>Sidecar shape<a class="headerlink" href="#sidecar-shape" title="Link to this heading">¶</a></h2>
+<p>The current sidecar includes top-level keys such as:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">version</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">profile</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">root_doc</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">output_file</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">document_order</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">anchors</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">aliases</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">objects</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">assets</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">spans</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">warnings</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">losses</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">stats</span></code></p></li>
+</ul>
+</section>
+<section id="anchor-strategy">
+<h2>Anchor strategy<a class="headerlink" href="#anchor-strategy" title="Link to this heading">¶</a></h2>
+<p>The builder pre-registers anchors before emission and resolves cross-document heading collisions with docname-prefixed IDs instead of numeric suffixes. That makes emitted IDs more stable when the toctree order changes.</p>
+</section>
+<section id="raw-content-policy">
+<h2>Raw content policy<a class="headerlink" href="#raw-content-policy" title="Link to this heading">¶</a></h2>
+<p>Raw HTML can pass through to the Markdown body when <code class="docutils literal notranslate"><span class="pre">longmd_raw_html</span> <span class="pre">=</span> <span class="pre">True</span></code>. Non-HTML raw blocks are omitted from the Markdown body and recorded in the sidecar instead.</p>
+</section>
+</section>
+
+
+          </div>
+              <div class="related bottom">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="usage.html" title="Previous document">Use the builder</a>
+        </li>
+        <li>
+          <a href="configuration.html" title="Next document">Configuration</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &#169;2026, Grainpool Holdings LLC.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.1.0</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Dialect Specification &#8212; sphinx-longmd docs</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=e52cff1b" />
+    <link rel="stylesheet" type="text/css" href="_static/brand.css?v=eb0f4610" />
+    <script src="_static/documentation_options.js?v=01f34227"></script>
+    <script src="_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Contributing" href="contributing.html" />
+    <link rel="prev" title="Limitations and expectations" href="limitations.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">sphinx-longmd</a></h1>
+
+
+
+<p class="blurb">One long-form Markdown artifact from a resolved Sphinx project.</p>
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">User guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Use the builder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="output.html">Output behavior</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="limitations.html">Limitations and expectations</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Dialect Specification</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#document-structure">1. Document structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#anchors">2. Anchors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#headings">3. Headings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#inline-formatting">4. Inline formatting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#links">5. Links</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#lists">6. Lists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#block-quotes">7. Block quotes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#code-blocks">8. Code blocks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#images">9. Images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tables">10. Tables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#transitions">11. Transitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#footnotes-and-citations">12. Footnotes and citations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#definition-lists">13. Definition lists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#myst-colon-fenced-directive-blocks">14. MyST colon-fenced directive blocks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#admonitions">15. Admonitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#version-modified-blocks">16. Version-modified blocks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#object-descriptions">17. Object descriptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#glossary-terms">18. Glossary terms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#generic-field-lists">19. Generic field lists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rubrics">20. Rubrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#topics">21. Topics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#raw-html">22. Raw HTML</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fallback-blocks">23. Fallback blocks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#provenance-sidecar-root-doc-longmd-map-json">24. Provenance sidecar (<code class="docutils literal notranslate"><span class="pre">&lt;root_doc&gt;.longmd.map.json</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#summary-of-syntactic-forms">25. Summary of syntactic forms</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Project</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="limitations.html" title="previous chapter">Limitations and expectations</a></li>
+      <li>Next: <a href="contributing.html" title="next chapter">Contributing</a></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+              <div class="related top">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="limitations.html" title="Previous document">Limitations and expectations</a>
+        </li>
+        <li>
+          <a href="contributing.html" title="Next document">Contributing</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+
+          <div class="body" role="main">
+            
+  <section id="dialect-specification">
+<h1>Dialect Specification<a class="headerlink" href="#dialect-specification" title="Link to this heading">¶</a></h1>
+<p>This document defines the complete output vocabulary of <code class="docutils literal notranslate"><span class="pre">sphinx-longmd</span></code>.
+It is intended for developers building parsers, renderers, or tooling
+that consumes <code class="docutils literal notranslate"><span class="pre">.longmd.md</span></code> files.</p>
+<p>A LongMD file is valid Markdown extended with three additional
+conventions: HTML anchors, HTML comments for document boundaries, and
+MyST-style colon-fenced directive blocks. A parser that handles
+standard Markdown plus these three conventions can fully consume the
+output.</p>
+<hr class="docutils" />
+<section id="document-structure">
+<h2>1. Document structure<a class="headerlink" href="#document-structure" title="Link to this heading">¶</a></h2>
+<section id="overall-shape">
+<h3>1.1 Overall shape<a class="headerlink" href="#overall-shape" title="Link to this heading">¶</a></h3>
+<p>A <code class="docutils literal notranslate"><span class="pre">.longmd.md</span></code> file has this structure:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">root</span> <span class="n">document</span> <span class="n">boundary</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">synthetic</span> <span class="n">table</span> <span class="n">of</span> <span class="n">contents</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">root</span> <span class="n">document</span> <span class="n">content</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">child</span> <span class="n">document</span> <span class="n">boundary</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">child</span> <span class="n">document</span> <span class="n">content</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">child</span> <span class="n">document</span> <span class="n">boundary</span> <span class="n">end</span><span class="o">&gt;</span>
+  <span class="o">...</span>
+<span class="o">&lt;</span><span class="n">root</span> <span class="n">document</span> <span class="n">boundary</span> <span class="n">end</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>All content from every source document in the Sphinx project appears
+in this single file, in toctree reading order.</p>
+</section>
+<section id="document-boundary-markers">
+<h3>1.2 Document boundary markers<a class="headerlink" href="#document-boundary-markers" title="Link to this heading">¶</a></h3>
+<p>Every source document (including the root) is wrapped in boundary
+markers using HTML comments:</p>
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">a</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;document-&lt;doc-slug&gt;&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+<span class="cm">&lt;!-- longmd:start-file docname=&quot;&lt;docname&gt;&quot; source=&quot;&lt;source-path&gt;&quot; --&gt;</span>
+
+...content...
+
+<span class="cm">&lt;!-- longmd:end-file docname=&quot;&lt;docname&gt;&quot; --&gt;</span>
+</pre></div>
+</div>
+<p><strong>Fields:</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Field</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Example</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">doc-slug</span></code></p></td>
+<td><p>Lowercased, hyphenated form of the docname</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">api-index</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">docname</span></code></p></td>
+<td><p>Sphinx docname (path without extension)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">api/index</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">source</span></code></p></td>
+<td><p>Absolute or relative path to the source file</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/home/user/docs/api/index.rst</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Parsing rules:</strong></p>
+<ul class="simple">
+<li><p>Start markers always appear as a pair: an <code class="docutils literal notranslate"><span class="pre">&lt;a</span> <span class="pre">id&gt;</span></code> anchor immediately
+followed by the <code class="docutils literal notranslate"><span class="pre">&lt;!--</span> <span class="pre">longmd:start-file</span> <span class="pre">...</span> <span class="pre">--&gt;</span></code> comment.</p></li>
+<li><p>End markers are a single <code class="docutils literal notranslate"><span class="pre">&lt;!--</span> <span class="pre">longmd:end-file</span> <span class="pre">...</span> <span class="pre">--&gt;</span></code> comment.</p></li>
+<li><p>Boundary markers may be nested (child docs appear inside the root
+doc’s boundaries).</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">docname</span></code> attribute is the authoritative document identifier.</p></li>
+</ul>
+</section>
+<section id="synthetic-table-of-contents">
+<h3>1.3 Synthetic table of contents<a class="headerlink" href="#synthetic-table-of-contents" title="Link to this heading">¶</a></h3>
+<p>Immediately after the root document’s start boundary, a synthetic
+TOC appears:</p>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span><span class="gs">**Contents**</span>
+
+<span class="k">-</span><span class="w"> </span>[<span class="nt">Index</span>](<span class="na">#document-index</span>)
+<span class="k">-</span><span class="w"> </span>[<span class="nt">Getting Started</span>](<span class="na">#document-getting-started</span>)
+<span class="k">-</span><span class="w"> </span>[<span class="nt">API Reference</span>](<span class="na">#document-api-reference</span>)
+</pre></div>
+</div>
+<p>Each entry is a standard Markdown link targeting the <code class="docutils literal notranslate"><span class="pre">document-&lt;slug&gt;</span></code>
+anchor of the corresponding source document.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="anchors">
+<h2>2. Anchors<a class="headerlink" href="#anchors" title="Link to this heading">¶</a></h2>
+<section id="html-anchor-elements">
+<h3>2.1 HTML anchor elements<a class="headerlink" href="#html-anchor-elements" title="Link to this heading">¶</a></h3>
+<p>All stable link targets use HTML <code class="docutils literal notranslate"><span class="pre">&lt;a&gt;</span></code> elements with <code class="docutils literal notranslate"><span class="pre">id</span></code> attributes:</p>
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">a</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;identifier&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+<p>Anchors appear immediately before the block they target. Multiple
+anchors may be stacked when a block has aliases:</p>
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">a</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;canonical-id&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">a</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;alias-id&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+## Section title
+</pre></div>
+</div>
+</section>
+<section id="anchor-id-patterns">
+<h3>2.2 Anchor ID patterns<a class="headerlink" href="#anchor-id-patterns" title="Link to this heading">¶</a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Source construct</p></th>
+<th class="head"><p>ID pattern</p></th>
+<th class="head"><p>Example</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Document boundary</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">document-&lt;doc-slug&gt;</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">document-api-index</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Section heading</p></td>
+<td><p>original section ID</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">installation</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Section (collision)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;doc-slug&gt;--&lt;section-id&gt;</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">reference-api--see-also</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Explicit label</p></td>
+<td><p>original label</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">install-note</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Object description</p></td>
+<td><p>signature-derived ID</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">demo.frob</span></code>, <code class="docutils literal notranslate"><span class="pre">demo.Widget</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Glossary term</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">term-&lt;normalized&gt;</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">term-widget</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Figure</p></td>
+<td><p>auto-generated or explicit</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">fig-architecture</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="collision-resolution">
+<h3>2.3 Collision resolution<a class="headerlink" href="#collision-resolution" title="Link to this heading">¶</a></h3>
+<p>When two source documents produce the same ID:</p>
+<ol class="arabic simple">
+<li><p>First document keeps the bare ID: <code class="docutils literal notranslate"><span class="pre">see-also</span></code></p></li>
+<li><p>Subsequent documents get a doc-prefixed form: <code class="docutils literal notranslate"><span class="pre">reference-api--see-also</span></code></p></li>
+</ol>
+<p>The prefix uses the docname slug with <code class="docutils literal notranslate"><span class="pre">--</span></code> as separator. This is
+stable across toctree reorderings.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="headings">
+<h2>3. Headings<a class="headerlink" href="#headings" title="Link to this heading">¶</a></h2>
+<p>ATX-style headings only. Level is determined by document nesting:</p>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span><span class="gh"># Root document title</span>
+<span class="gu">## Child document title</span>
+<span class="gu">### Child document subsection</span>
+<span class="gu">#### Deeper subsection</span>
+</pre></div>
+</div>
+<p><strong>Heading level rules:</strong></p>
+<ul class="simple">
+<li><p>Root document title: <code class="docutils literal notranslate"><span class="pre">#</span></code></p></li>
+<li><p>Child document titles (one toctree level deep): <code class="docutils literal notranslate"><span class="pre">##</span></code></p></li>
+<li><p>Subsections within a child document: <code class="docutils literal notranslate"><span class="pre">###</span></code>, <code class="docutils literal notranslate"><span class="pre">####</span></code>, etc.</p></li>
+<li><p>Maximum depth: <code class="docutils literal notranslate"><span class="pre">######</span></code> (6 levels)</p></li>
+</ul>
+<p>Headings are always preceded by their section’s anchor(s).</p>
+</section>
+<hr class="docutils" />
+<section id="inline-formatting">
+<h2>4. Inline formatting<a class="headerlink" href="#inline-formatting" title="Link to this heading">¶</a></h2>
+<section id="emphasis">
+<h3>4.1 Emphasis<a class="headerlink" href="#emphasis" title="Link to this heading">¶</a></h3>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span><span class="ge">*italic text*</span>
+</pre></div>
+</div>
+</section>
+<section id="strong-emphasis">
+<h3>4.2 Strong emphasis<a class="headerlink" href="#strong-emphasis" title="Link to this heading">¶</a></h3>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span><span class="gs">**bold text**</span>
+</pre></div>
+</div>
+</section>
+<section id="inline-code">
+<h3>4.3 Inline code<a class="headerlink" href="#inline-code" title="Link to this heading">¶</a></h3>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span><span class="sb">`code_here`</span>
+</pre></div>
+</div>
+<p>When the content contains backticks:</p>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span>`` code`with`backticks ``
+</pre></div>
+</div>
+</section>
+<section id="title-references">
+<h3>4.4 Title references<a class="headerlink" href="#title-references" title="Link to this heading">¶</a></h3>
+<p>Rendered as emphasis (same as 4.1):</p>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span><span class="ge">*Some Title*</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="links">
+<h2>5. Links<a class="headerlink" href="#links" title="Link to this heading">¶</a></h2>
+<section id="internal-fragment-links">
+<h3>5.1 Internal fragment links<a class="headerlink" href="#internal-fragment-links" title="Link to this heading">¶</a></h3>
+<p>All in-project cross-references are same-file fragment links:</p>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span>[<span class="nt">visible text</span>](<span class="na">#anchor-id</span>)
+</pre></div>
+</div>
+<p>Examples:</p>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span>[<span class="nt">Installation</span>](<span class="na">#installation</span>)
+[<span class="nt">API Reference</span>](<span class="na">#document-api-reference</span>)
+[<span class="sb">`demo.frob()`</span>](#demo.frob)
+[<span class="nt">widget</span>](<span class="na">#term-widget</span>)
+</pre></div>
+</div>
+</section>
+<section id="external-links">
+<h3>5.2 External links<a class="headerlink" href="#external-links" title="Link to this heading">¶</a></h3>
+<p>Links resolved to external URLs (including intersphinx):</p>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span>[<span class="nt">visible text</span>](<span class="na">https://example.com/page</span>)
+</pre></div>
+</div>
+</section>
+<section id="unresolved-references">
+<h3>5.3 Unresolved references<a class="headerlink" href="#unresolved-references" title="Link to this heading">¶</a></h3>
+<p>When Sphinx cannot resolve a reference, the target text appears as
+inline code without a link:</p>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span><span class="sb">`unknown_target`</span>
+</pre></div>
+</div>
+<p>A warning is recorded in the sidecar.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="lists">
+<h2>6. Lists<a class="headerlink" href="#lists" title="Link to this heading">¶</a></h2>
+<section id="bullet-lists">
+<h3>6.1 Bullet lists<a class="headerlink" href="#bullet-lists" title="Link to this heading">¶</a></h3>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span><span class="k">-</span><span class="w"> </span>First item
+<span class="k">-</span><span class="w"> </span>Second item
+<span class="k">-</span><span class="w"> </span>Third item with
+  continuation on next line
+</pre></div>
+</div>
+</section>
+<section id="enumerated-lists">
+<h3>6.2 Enumerated lists<a class="headerlink" href="#enumerated-lists" title="Link to this heading">¶</a></h3>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span><span class="k">1.</span> First item
+<span class="k">2.</span> Second item
+<span class="k">3.</span> Third item with
+   continuation on next line
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="block-quotes">
+<h2>7. Block quotes<a class="headerlink" href="#block-quotes" title="Link to this heading">¶</a></h2>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span><span class="k">&gt; </span><span class="ge">Quoted text here</span>
+<span class="k">&gt; </span><span class="ge">spanning multiple lines</span>
+<span class="k">&gt;</span>
+<span class="ge">&gt; With paragraph breaks inside</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="code-blocks">
+<h2>8. Code blocks<a class="headerlink" href="#code-blocks" title="Link to this heading">¶</a></h2>
+<p>Fenced code blocks with optional language info string:</p>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span><span class="sb">```python</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">hello</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;world&quot;</span><span class="p">)</span>
+<span class="sb">```</span>
+</pre></div>
+</div>
+<p>When the code content itself contains triple backticks, the fence
+uses additional backticks:</p>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span>````markdown
+<span class="sb">```python</span>
+<span class="n">nested</span>
+<span class="sb">```</span>
+````
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="images">
+<h2>9. Images<a class="headerlink" href="#images" title="Link to this heading">¶</a></h2>
+<section id="simple-images">
+<h3>9.1 Simple images<a class="headerlink" href="#simple-images" title="Link to this heading">¶</a></h3>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span>![<span class="nt">alt text</span>](<span class="na">assets/filename.png</span>)
+</pre></div>
+</div>
+<p>Image paths point to the <code class="docutils literal notranslate"><span class="pre">assets/</span></code> directory relative to the
+<code class="docutils literal notranslate"><span class="pre">.longmd.md</span></code> file. The builder copies referenced images there with
+collision-safe filenames.</p>
+</section>
+<section id="figures-with-captions">
+<h3>9.2 Figures with captions<a class="headerlink" href="#figures-with-captions" title="Link to this heading">¶</a></h3>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span>&lt;a id=&quot;figure-id&quot;&gt;&lt;/a&gt;
+![<span class="nt">alt text</span>](<span class="na">assets/filename.png</span>)
+
+<span class="ge">*Caption text in italics*</span>
+</pre></div>
+</div>
+<p>The caption, if present, appears as an italic paragraph immediately
+after the image. A legend, if present, follows as normal prose.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="tables">
+<h2>10. Tables<a class="headerlink" href="#tables" title="Link to this heading">¶</a></h2>
+<p>Markdown pipe tables:</p>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span><span class="gs">**Table caption**</span>
+
+| Column A | Column B | Column C |
+| --- | --- | --- |
+| cell 1 | cell 2 | cell 3 |
+| cell 4 | cell 5 | cell 6 |
+</pre></div>
+</div>
+<p><strong>Rules:</strong></p>
+<ul class="simple">
+<li><p>The separator row (<code class="docutils literal notranslate"><span class="pre">|</span> <span class="pre">---</span> <span class="pre">|</span> <span class="pre">---</span> <span class="pre">|</span></code>) always appears after the
+header row.</p></li>
+<li><p>If the source table has no explicit header, the first body row
+is promoted to header (Markdown requires a header row).</p></li>
+<li><p>Table captions appear as bold text above the table.</p></li>
+<li><p>Cell content is flattened to single lines.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="transitions">
+<h2>11. Transitions<a class="headerlink" href="#transitions" title="Link to this heading">¶</a></h2>
+<p>Horizontal rules:</p>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span>---
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="footnotes-and-citations">
+<h2>12. Footnotes and citations<a class="headerlink" href="#footnotes-and-citations" title="Link to this heading">¶</a></h2>
+<section id="footnote-references-inline">
+<h3>12.1 Footnote references (inline)<a class="headerlink" href="#footnote-references-inline" title="Link to this heading">¶</a></h3>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span>Some text[^1] and more[^named].
+</pre></div>
+</div>
+</section>
+<section id="footnote-definitions">
+<h3>12.2 Footnote definitions<a class="headerlink" href="#footnote-definitions" title="Link to this heading">¶</a></h3>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span>[<span class="nl">^1</span>]: <span class="na">Auto-numbered footnote body.</span>
+[<span class="nl">^named</span>]: <span class="na">Named footnote body.</span>
+</pre></div>
+</div>
+<p>Citations use the same syntax with the citation label:</p>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span>[<span class="nl">^CIT2024</span>]: <span class="na">Citation body text.</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="definition-lists">
+<h2>13. Definition lists<a class="headerlink" href="#definition-lists" title="Link to this heading">¶</a></h2>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span>Term one
+: Definition of term one.
+
+Term two
+: Definition of term two.
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="myst-colon-fenced-directive-blocks">
+<h2>14. MyST colon-fenced directive blocks<a class="headerlink" href="#myst-colon-fenced-directive-blocks" title="Link to this heading">¶</a></h2>
+<p>These are the primary extension beyond standard Markdown. They use
+MyST-Parser’s colon-fence syntax: three or more colons, curly-braced
+directive name, optional argument, optional field options, body, and
+closing colons.</p>
+<section id="general-syntax">
+<h3>14.1 General syntax<a class="headerlink" href="#general-syntax" title="Link to this heading">¶</a></h3>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span>:::{directive-name} optional argument
+:option-key: option value
+
+Body content here.
+:::
+</pre></div>
+</div>
+<p><strong>Parsing rules:</strong></p>
+<ul class="simple">
+<li><p>Opening fence: <code class="docutils literal notranslate"><span class="pre">:::</span></code> followed by <code class="docutils literal notranslate"><span class="pre">{directive-name}</span></code></p></li>
+<li><p>The directive name is inside curly braces</p></li>
+<li><p>An optional space-separated argument follows the closing brace</p></li>
+<li><p>Field-style options (<code class="docutils literal notranslate"><span class="pre">:key:</span> <span class="pre">value</span></code>) appear on subsequent lines
+before a blank line</p></li>
+<li><p>Body content follows the blank line</p></li>
+<li><p>Closing fence: <code class="docutils literal notranslate"><span class="pre">:::</span></code></p></li>
+<li><p>Fences must be at least three colons and match in length</p></li>
+</ul>
+</section>
+<section id="nesting">
+<h3>14.2 Nesting<a class="headerlink" href="#nesting" title="Link to this heading">¶</a></h3>
+<p>Colon-fenced blocks can nest. Inner blocks appear within outer blocks:</p>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span>:::{py:class} demo.Widget(name)
+:source-doc: objects
+
+Description of the class.
+
+:::{py:method} render()
+:source-doc: objects
+
+Description of the method.
+:::
+:::
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="admonitions">
+<h2>15. Admonitions<a class="headerlink" href="#admonitions" title="Link to this heading">¶</a></h2>
+<p>Specific admonition types emitted as MyST directives:</p>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span>:::{note}
+Body text.
+:::
+
+:::{warning}
+Body text.
+:::
+
+:::{tip}
+Body text.
+:::
+
+:::{important}
+Body text.
+:::
+</pre></div>
+</div>
+<p><strong>All admonition directive names:</strong></p>
+<p><code class="docutils literal notranslate"><span class="pre">note</span></code>, <code class="docutils literal notranslate"><span class="pre">warning</span></code>, <code class="docutils literal notranslate"><span class="pre">tip</span></code>, <code class="docutils literal notranslate"><span class="pre">important</span></code>, <code class="docutils literal notranslate"><span class="pre">hint</span></code>, <code class="docutils literal notranslate"><span class="pre">caution</span></code>, <code class="docutils literal notranslate"><span class="pre">danger</span></code>,
+<code class="docutils literal notranslate"><span class="pre">error</span></code>, <code class="docutils literal notranslate"><span class="pre">attention</span></code>, <code class="docutils literal notranslate"><span class="pre">seealso</span></code></p>
+<section id="generic-admonitions">
+<h3>15.1 Generic admonitions<a class="headerlink" href="#generic-admonitions" title="Link to this heading">¶</a></h3>
+<p>Admonitions with custom titles:</p>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span>:::{admonition} Custom Title Here
+Body text.
+:::
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="version-modified-blocks">
+<h2>16. Version-modified blocks<a class="headerlink" href="#version-modified-blocks" title="Link to this heading">¶</a></h2>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span>:::{versionadded}
+Added in 2.0: Description of what was added.
+:::
+
+:::{versionchanged}
+Changed in 3.1: Description of what changed.
+:::
+
+:::{deprecated}
+Deprecated since 4.0: Use new_function instead.
+:::
+</pre></div>
+</div>
+<p><strong>Directive names:</strong> <code class="docutils literal notranslate"><span class="pre">versionadded</span></code>, <code class="docutils literal notranslate"><span class="pre">versionchanged</span></code>, <code class="docutils literal notranslate"><span class="pre">deprecated</span></code></p>
+</section>
+<hr class="docutils" />
+<section id="object-descriptions">
+<h2>17. Object descriptions<a class="headerlink" href="#object-descriptions" title="Link to this heading">¶</a></h2>
+<p>Sphinx domain objects are emitted as MyST directive blocks with
+domain-qualified names.</p>
+<section id="general-form">
+<h3>17.1 General form<a class="headerlink" href="#general-form" title="Link to this heading">¶</a></h3>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span>&lt;a id=&quot;signature-derived-id&quot;&gt;&lt;/a&gt;
+:::{domain:objtype} signature text
+:source-doc: docname
+
+Description body.
+
+<span class="gs">**Parameters**</span>
+<span class="k">-</span><span class="w"> </span><span class="sb">`x`</span> (<span class="sb">`int`</span>): first value
+<span class="k">-</span><span class="w"> </span><span class="sb">`y`</span> (<span class="sb">`str`</span>): display label
+
+<span class="gs">**Returns**</span>
+<span class="k">-</span><span class="w"> </span><span class="sb">`bool`</span>: whether it succeeded
+
+<span class="gs">**Raises**</span>
+<span class="k">-</span><span class="w"> </span><span class="sb">`ValueError`</span>: duplicate anchor
+:::
+</pre></div>
+</div>
+</section>
+<section id="python-domain-examples">
+<h3>17.2 Python domain examples<a class="headerlink" href="#python-domain-examples" title="Link to this heading">¶</a></h3>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span>:::{py:function} demo.frob(x, y=0)
+:source-doc: api/index
+
+Frob two values.
+
+<span class="gs">**Parameters**</span>
+<span class="k">-</span><span class="w"> </span><span class="gs">**x**</span> (<span class="ge">*int*</span>) – first value
+<span class="k">-</span><span class="w"> </span><span class="gs">**y**</span> (<span class="ge">*str*</span>) – display label
+
+<span class="gs">**Returns**</span>
+whether export succeeded
+
+<span class="gs">**Return type**</span>
+bool
+
+<span class="gs">**Raises**</span>
+<span class="gs">**ValueError**</span> – duplicate anchor
+:::
+</pre></div>
+</div>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span>:::{py:class} class demo.Widget(name)
+:source-doc: api/index
+
+A reusable widget.
+:::
+</pre></div>
+</div>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span>:::{py:method} render()
+:source-doc: api/index
+
+Render the widget.
+:::
+</pre></div>
+</div>
+</section>
+<section id="object-directive-names">
+<h3>17.3 Object directive names<a class="headerlink" href="#object-directive-names" title="Link to this heading">¶</a></h3>
+<p>The directive name is <code class="docutils literal notranslate"><span class="pre">{domain}:{objtype}</span></code>. Common examples:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Directive</p></th>
+<th class="head"><p>Source construct</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">py:function</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">..</span> <span class="pre">py:function::</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">py:class</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">..</span> <span class="pre">py:class::</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">py:method</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">..</span> <span class="pre">py:method::</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">py:attribute</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">..</span> <span class="pre">py:attribute::</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">py:data</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">..</span> <span class="pre">py:data::</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">py:exception</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">..</span> <span class="pre">py:exception::</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">py:module</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">..</span> <span class="pre">py:module::</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">c:function</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">..</span> <span class="pre">c:function::</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">js:function</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">..</span> <span class="pre">js:function::</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p>Any Sphinx domain may appear. If the domain or objtype is unknown,
+the fallback directive name is <code class="docutils literal notranslate"><span class="pre">object</span></code>.</p>
+</section>
+<section id="object-directive-options">
+<h3>17.4 Object directive options<a class="headerlink" href="#object-directive-options" title="Link to this heading">¶</a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Option</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">:source-doc:</span></code></p></td>
+<td><p>Sphinx docname of the source document</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">:sig:</span></code></p></td>
+<td><p>Additional signatures (for overloaded objects)</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="normalized-field-sections">
+<h3>17.5 Normalized field sections<a class="headerlink" href="#normalized-field-sections" title="Link to this heading">¶</a></h3>
+<p>Inside object description bodies, API info fields are rendered as
+bold section headers followed by bullet lists:</p>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span><span class="gs">**Parameters**</span>
+<span class="k">-</span><span class="w"> </span><span class="sb">`name`</span> (<span class="sb">`type`</span>): description
+<span class="k">-</span><span class="w"> </span><span class="sb">`name`</span> (<span class="sb">`type`</span>): description
+
+<span class="gs">**Keyword Arguments**</span>
+<span class="k">-</span><span class="w"> </span><span class="sb">`name`</span> (<span class="sb">`type`</span>): description
+
+<span class="gs">**Attributes**</span>
+<span class="k">-</span><span class="w"> </span><span class="sb">`name`</span> (<span class="sb">`type`</span>): description
+
+<span class="gs">**Returns**</span>
+<span class="k">-</span><span class="w"> </span><span class="sb">`type`</span>: description
+
+<span class="gs">**Yields**</span>
+<span class="k">-</span><span class="w"> </span><span class="sb">`type`</span>: description
+
+<span class="gs">**Raises**</span>
+<span class="k">-</span><span class="w"> </span><span class="sb">`ExceptionType`</span>: description
+</pre></div>
+</div>
+<p>Alternatively, Sphinx may pre-render these as bold-label sections
+(when the Python domain transforms them before the builder sees them):</p>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span><span class="gs">**Parameters**</span>
+<span class="k">-</span><span class="w"> </span><span class="gs">**name**</span> (<span class="ge">*type*</span>) – description
+
+<span class="gs">**Return type**</span>
+type
+
+<span class="gs">**Raises**</span>
+<span class="gs">**ExceptionType**</span> – description
+</pre></div>
+</div>
+<p>Both forms are valid. Parsers should accept either.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="glossary-terms">
+<h2>18. Glossary terms<a class="headerlink" href="#glossary-terms" title="Link to this heading">¶</a></h2>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span>&lt;a id=&quot;term-widget&quot;&gt;&lt;/a&gt;
+<span class="gs">**widget**</span>
+: A reusable component.
+
+&lt;a id=&quot;term-anchor&quot;&gt;&lt;/a&gt;
+<span class="gs">**anchor**</span>
+: A stable link target in the emitted document.
+</pre></div>
+</div>
+<p>Each term has an anchor (typically <code class="docutils literal notranslate"><span class="pre">term-&lt;normalized-name&gt;</span></code>), the
+term itself in bold, and the definition using definition-list syntax
+(<code class="docutils literal notranslate"><span class="pre">:</span> </code> prefix).</p>
+</section>
+<hr class="docutils" />
+<section id="generic-field-lists">
+<h2>19. Generic field lists<a class="headerlink" href="#generic-field-lists" title="Link to this heading">¶</a></h2>
+<p>Field lists outside object descriptions render as bold-label
+paragraphs:</p>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span><span class="gs">**Status:**</span> stable
+
+<span class="gs">**Audience:**</span> maintainers
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="rubrics">
+<h2>20. Rubrics<a class="headerlink" href="#rubrics" title="Link to this heading">¶</a></h2>
+<p>Rubrics render as bold text (they are not headings and do not create
+TOC entries):</p>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span><span class="gs">**Examples**</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="topics">
+<h2>21. Topics<a class="headerlink" href="#topics" title="Link to this heading">¶</a></h2>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span><span class="gs">**Topic Title**</span>
+
+Topic body content.
+</pre></div>
+</div>
+<section id="sidebars">
+<h3>21.1 Sidebars<a class="headerlink" href="#sidebars" title="Link to this heading">¶</a></h3>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span><span class="k">&gt; </span><span class="ge">**Sidebar — Title**</span>
+<span class="k">&gt;</span>
+<span class="ge">&gt; Sidebar body content.</span>
+</pre></div>
+</div>
+</section>
+<section id="local-table-of-contents">
+<h3>21.2 Local table of contents<a class="headerlink" href="#local-table-of-contents" title="Link to this heading">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">..</span> <span class="pre">contents::</span></code> directives are suppressed (the builder provides its
+own synthetic TOC).</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="raw-html">
+<h2>22. Raw HTML<a class="headerlink" href="#raw-html" title="Link to this heading">¶</a></h2>
+<p>When <code class="docutils literal notranslate"><span class="pre">longmd_raw_html</span></code> is enabled (the default), raw HTML from the
+source documents passes through verbatim:</p>
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;custom-banner&quot;</span><span class="p">&gt;</span>Hello from raw HTML<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+<p>Non-HTML raw content (e.g. LaTeX) is omitted from the body and
+recorded in the sidecar only.</p>
+</section>
+<hr class="docutils" />
+<section id="fallback-blocks">
+<h2>23. Fallback blocks<a class="headerlink" href="#fallback-blocks" title="Link to this heading">¶</a></h2>
+<p>When a node has no dedicated emitter, it is wrapped in a
+<code class="docutils literal notranslate"><span class="pre">sphinx-node</span></code> directive:</p>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span>:::{sphinx-node}
+:node-type: full.python.path.ClassName
+:source-doc: docname
+:source-line: 42
+:preservation: degraded
+
+Readable fallback body text extracted from child nodes.
+:::
+</pre></div>
+</div>
+<section id="fallback-directive-options">
+<h3>23.1 Fallback directive options<a class="headerlink" href="#fallback-directive-options" title="Link to this heading">¶</a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Option</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">:node-type:</span></code></p></td>
+<td><p>Fully qualified Python class name of the node</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">:source-doc:</span></code></p></td>
+<td><p>Sphinx docname where the node originated</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">:source-line:</span></code></p></td>
+<td><p>Source line number (may be empty)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">:preservation:</span></code></p></td>
+<td><p>Always <code class="docutils literal notranslate"><span class="pre">degraded</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Parsing guidance:</strong> A parser encountering <code class="docutils literal notranslate"><span class="pre">:::{sphinx-node}</span></code> should
+render the body content as-is (it is already readable Markdown) and
+optionally surface the metadata options as debug information.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="provenance-sidecar-root-doc-longmd-map-json">
+<h2>24. Provenance sidecar (<code class="docutils literal notranslate"><span class="pre">&lt;root_doc&gt;.longmd.map.json</span></code>)<a class="headerlink" href="#provenance-sidecar-root-doc-longmd-map-json" title="Link to this heading">¶</a></h2>
+<p>The sidecar is a companion JSON file that carries machine-readable
+provenance for every construct in the Markdown body. Its existence
+is guaranteed; the Markdown file is self-contained for reading but
+the sidecar enables tooling.</p>
+<section id="top-level-schema">
+<h3>24.1 Top-level schema<a class="headerlink" href="#top-level-schema" title="Link to this heading">¶</a></h3>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1.0&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;profile&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;longmd_myst_v0&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;root_doc&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;index&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;output_file&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;index.longmd.md&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;document_order&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;index&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;intro&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;api/index&quot;</span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;anchors&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;canonical_key&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;emitted_id&quot;</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;aliases&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;alias_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;emitted_id&quot;</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;objects&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;domain:type:name&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;assets&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;image&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;source_uri&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;...&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;output_path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;...&quot;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;spans&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;out_start_line&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;out_end_line&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;warnings&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;...&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;...&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;severity&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;warning&quot;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;losses&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;...&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;level&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;moderate&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;details&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;...&quot;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;stats&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;emitted_lines&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1618</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;anchors_total&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">277</span><span class="p">,</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="span-records">
+<h3>24.2 Span records<a class="headerlink" href="#span-records" title="Link to this heading">¶</a></h3>
+<p>Each span maps an output line range to its source:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;out_start_line&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;out_end_line&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">48</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;source_docname&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;api/index&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;source_path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;docs/source/api/index.rst&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;source_line&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;node_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;section&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;anchors&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Line numbers are 1-based. Spans are monotonically ordered by
+<code class="docutils literal notranslate"><span class="pre">out_start_line</span></code>.</p>
+</section>
+<section id="warning-records">
+<h3>24.3 Warning records<a class="headerlink" href="#warning-records" title="Link to this heading">¶</a></h3>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;unknown_node&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;No dedicated emitter for thirdparty.CardNode&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;severity&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;warning&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;source_docname&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;intro&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;source_line&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;node_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;thirdparty.CardNode&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Warning codes:</strong> <code class="docutils literal notranslate"><span class="pre">unknown_node</span></code>, <code class="docutils literal notranslate"><span class="pre">unresolved_xref</span></code>,
+<code class="docutils literal notranslate"><span class="pre">raw_content_omitted</span></code>, <code class="docutils literal notranslate"><span class="pre">unresolved_reference</span></code>, <code class="docutils literal notranslate"><span class="pre">asset_missing</span></code>.</p>
+</section>
+<section id="loss-records">
+<h3>24.4 Loss records<a class="headerlink" href="#loss-records" title="Link to this heading">¶</a></h3>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;custom_node_degraded&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;level&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;moderate&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;node_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;thirdparty.CardNode&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;source_docname&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;intro&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;source_line&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;details&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;emitted via sphinx-node fallback&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Loss levels:</strong> <code class="docutils literal notranslate"><span class="pre">minor</span></code>, <code class="docutils literal notranslate"><span class="pre">moderate</span></code>, <code class="docutils literal notranslate"><span class="pre">major</span></code>.</p>
+<p><strong>Loss codes:</strong> <code class="docutils literal notranslate"><span class="pre">custom_node_degraded</span></code>, <code class="docutils literal notranslate"><span class="pre">raw_content_sidecar_only</span></code>,
+<code class="docutils literal notranslate"><span class="pre">benign_wrapper</span></code>.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="summary-of-syntactic-forms">
+<h2>25. Summary of syntactic forms<a class="headerlink" href="#summary-of-syntactic-forms" title="Link to this heading">¶</a></h2>
+<p>For quick reference, here is every syntactic form a parser must handle
+to fully consume LongMD/MyST v0 output:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Form</p></th>
+<th class="head"><p>Standard?</p></th>
+<th class="head"><p>Example</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>ATX headings</p></td>
+<td><p>Markdown</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">##</span> <span class="pre">Title</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Paragraphs</p></td>
+<td><p>Markdown</p></td>
+<td><p>plain text</p></td>
+</tr>
+<tr class="row-even"><td><p>Emphasis</p></td>
+<td><p>Markdown</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">*text*</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Strong</p></td>
+<td><p>Markdown</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">**text**</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Inline code</p></td>
+<td><p>Markdown</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">`code`</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Links</p></td>
+<td><p>Markdown</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[text](#anchor)</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Images</p></td>
+<td><p>Markdown</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">![alt](path)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Bullet lists</p></td>
+<td><p>Markdown</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-</span> <span class="pre">item</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Enumerated lists</p></td>
+<td><p>Markdown</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">1.</span> <span class="pre">item</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Block quotes</p></td>
+<td><p>Markdown</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&gt;</span> <span class="pre">text</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Fenced code blocks</p></td>
+<td><p>Markdown</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">```lang</span> <span class="pre">...</span> <span class="pre">```</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Horizontal rules</p></td>
+<td><p>Markdown</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">---</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Pipe tables</p></td>
+<td><p>GFM</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">|</span> <span class="pre">a</span> <span class="pre">|</span> <span class="pre">b</span> <span class="pre">|</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Footnote refs</p></td>
+<td><p>Extended MD</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[^name]</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Footnote defs</p></td>
+<td><p>Extended MD</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[^name]:</span> <span class="pre">body</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Definition lists</p></td>
+<td><p>Extended MD</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">term\n:</span> <span class="pre">definition</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>HTML anchors</p></td>
+<td><p>HTML-in-MD</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;a</span> <span class="pre">id=&quot;...&quot;&gt;&lt;/a&gt;</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>HTML comments</p></td>
+<td><p>HTML-in-MD</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;!--</span> <span class="pre">longmd:...</span> <span class="pre">--&gt;</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Raw HTML</p></td>
+<td><p>HTML-in-MD</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;div&gt;...&lt;/div&gt;</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Colon-fenced directives</p></td>
+<td><p>MyST</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">:::{name}</span> <span class="pre">arg\n...\n:::</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p>A parser targeting <strong>minimal viable support</strong> needs only standard
+Markdown plus HTML anchor/comment pass-through. The colon-fenced
+directives and extended Markdown forms (footnotes, definition lists,
+tables) add semantic richness but degrade to readable text if a
+parser ignores them.</p>
+</section>
+</section>
+
+
+          </div>
+              <div class="related bottom">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="limitations.html" title="Previous document">Limitations and expectations</a>
+        </li>
+        <li>
+          <a href="contributing.html" title="Next document">Contributing</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &#169;2026, Grainpool Holdings LLC.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.1.0</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

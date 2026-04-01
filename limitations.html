@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Limitations and expectations &#8212; sphinx-longmd docs</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=e52cff1b" />
+    <link rel="stylesheet" type="text/css" href="_static/brand.css?v=eb0f4610" />
+    <script src="_static/documentation_options.js?v=01f34227"></script>
+    <script src="_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Dialect Specification" href="dialect.html" />
+    <link rel="prev" title="Configuration" href="configuration.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">sphinx-longmd</a></h1>
+
+
+
+<p class="blurb">One long-form Markdown artifact from a resolved Sphinx project.</p>
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">User guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Use the builder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="output.html">Output behavior</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Limitations and expectations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#what-not-to-expect">What not to expect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#known-boundary-conditions">Known boundary conditions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#questions-users-usually-ask">Questions users usually ask</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#practical-scope">Practical scope</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="dialect.html">Dialect Specification</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Project</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="configuration.html" title="previous chapter">Configuration</a></li>
+      <li>Next: <a href="dialect.html" title="next chapter">Dialect Specification</a></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+              <div class="related top">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="configuration.html" title="Previous document">Configuration</a>
+        </li>
+        <li>
+          <a href="dialect.html" title="Next document">Dialect Specification</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+
+          <div class="body" role="main">
+            
+  <section id="limitations-and-expectations">
+<h1>Limitations and expectations<a class="headerlink" href="#limitations-and-expectations" title="Link to this heading">¶</a></h1>
+<p>This project is small, and the docs should stay honest about that. The extension does a lot for its size, but it is still a transformation layer over Sphinx internals, not a universal round-trip format.</p>
+<section id="what-not-to-expect">
+<h2>What not to expect<a class="headerlink" href="#what-not-to-expect" title="Link to this heading">¶</a></h2>
+<p>Do not expect every Sphinx-only or third-party directive to survive as perfect plain Markdown. The current design prefers one of two behaviors:</p>
+<ul class="simple">
+<li><p>emit a reasonable Markdown or MyST representation</p></li>
+<li><p>degrade gracefully and record the loss in the sidecar</p></li>
+</ul>
+</section>
+<section id="known-boundary-conditions">
+<h2>Known boundary conditions<a class="headerlink" href="#known-boundary-conditions" title="Link to this heading">¶</a></h2>
+<p>From the implementation and tests, the current boundary lines are:</p>
+<ul class="simple">
+<li><p>custom or third-party nodes may fall back to a generic <code class="docutils literal notranslate"><span class="pre">sphinx-node</span></code> block in non-strict mode</p></li>
+<li><p>the same cases fail the build in strict mode</p></li>
+<li><p>non-HTML raw content is not emitted into the Markdown body</p></li>
+<li><p>output fidelity depends on how much semantic structure is available in the resolved doctree</p></li>
+</ul>
+</section>
+<section id="questions-users-usually-ask">
+<h2>Questions users usually ask<a class="headerlink" href="#questions-users-usually-ask" title="Link to this heading">¶</a></h2>
+<dl class="simple">
+<dt>Does it support reStructuredText only?</dt><dd><p>Yes.</p>
+</dd>
+<dt>Does it support MyST Markdown sources too?</dt><dd><p>Yes, when <code class="docutils literal notranslate"><span class="pre">myst-parser</span></code> is installed and configured in the parent Sphinx project.</p>
+</dd>
+<dt>Does it preserve images?</dt><dd><p>It copies referenced images into an <code class="docutils literal notranslate"><span class="pre">assets/</span></code> directory and rewrites image links to point there.</p>
+</dd>
+<dt>Does it preserve every internal link exactly?</dt><dd><p>Treat internal-link behavior as practical rather than perfect. The builder is designed around stable anchors and doc-boundary IDs, but downstream consumers should still be tested against real output.</p>
+</dd>
+</dl>
+</section>
+<section id="practical-scope">
+<h2>Practical scope<a class="headerlink" href="#practical-scope" title="Link to this heading">¶</a></h2>
+<p>This documentation site is intentionally compact. For most users, the extension surface area is still:</p>
+<ol class="arabic simple">
+<li><p>install it</p></li>
+<li><p>enable it</p></li>
+<li><p>run <code class="docutils literal notranslate"><span class="pre">sphinx-build</span> <span class="pre">-b</span> <span class="pre">longmd</span></code></p></li>
+<li><p>inspect the Markdown file and sidecar</p></li>
+</ol>
+<p>However, for developers of Markdown interpreters, an additional reference document for the Markdown syntax produced by longmd is available on the following page: ‘Dialect Specification’.</p>
+</section>
+</section>
+
+
+          </div>
+              <div class="related bottom">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="configuration.html" title="Previous document">Configuration</a>
+        </li>
+        <li>
+          <a href="dialect.html" title="Next document">Dialect Specification</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &#169;2026, Grainpool Holdings LLC.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.1.0</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
